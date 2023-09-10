@@ -1,0 +1,277 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Tech Stack</title>
+</head>
+<body>
+    <h1>Lupin Internal Tool</h1>
+    <div>
+        <label for="sqlQuery">SQL Query:</label>
+        <textarea id="sqlQuery" rows="4" cols="50"></textarea>
+    </div>
+    <div>
+        <button onclick="getQueryResult()">Click to get query result</button>
+    </div>
+    <div>
+        <h2>Result:</h2>
+        <div>
+            <textarea id="result" rows="6" cols="50" readonly></textarea>
+            <button onclick="copyToClipboard()">Copy</button>
+        </div>
+    </div>
+    <div>
+        <label for="message">Message:</label>
+        <input type="text" id="message">
+    </div>
+    <div>
+        <label for="patientids">PatientIds:</label>
+        <input type="text" id="patients">
+    </div>
+    <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title">
+    </div>
+    <div>
+        <button onclick="sendNotification()">Send Notification</button>
+    </div>
+    
+
+    <script>
+        function getQueryResult() {
+            const sqlQuery = document.getElementById("sqlQuery").value;
+            const requestData = {
+                "sql": sqlQuery
+            };
+
+            // Send a POST request to the Flask API
+            fetch('/getPatientIds', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the result textarea with the query result
+                const resultTextarea = document.getElementById("result");
+                // resultTextarea.value = JSON.stringify(data.data, null, 2);
+                resultTextarea.value = data.data
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function copyToClipboard() {
+            const resultTextarea = document.getElementById("result");
+            resultTextarea.select();
+            document.execCommand("copy");
+            alert("Result copied to clipboard!");
+        }
+
+
+        function sendNotification() {
+            const patients = document.getElementById("patients").value;
+            const message = document.getElementById("message").value;
+            const title = document.getElementById("title").value;
+
+            // Create a JSON object with the input values
+            const requestData = {
+                "patientIds": patients,
+                "message": message,
+                "title": title
+            };
+
+            // Send a POST request to the Flask API
+            fetch('/sendNotifications', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the result textarea with the query result
+                if(data.statusCode === 200){
+                    alert("Notification is sent");
+                }else{
+                    alert("Failed to send notifications");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
+ -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lupin Internal Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #result {
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lupin Internal Tool</h1>
+
+    <div class="container">
+        <label for="sqlQuery">SQL Query:</label>
+        <textarea id="sqlQuery" rows="4"></textarea>
+
+        <button onclick="getQueryResult()">Get Query Result</button>
+
+        <h2>Result:</h2>
+        <div>
+            <textarea id="result" readonly></textarea>
+            <button onclick="copyToClipboard()">Copy</button>
+        </div>
+
+        <label for="message">Message:</label>
+        <input type="text" id="message">
+
+        <label for="patients">PatientIds:</label>
+        <input type="text" id="patients">
+
+        <label for="title">Title:</label>
+        <input type="text" id="title">
+
+        <button onclick="sendNotification()">Send Notification</button>
+    </div>
+
+    <script>
+        function getQueryResult() {
+            const sqlQuery = document.getElementById("sqlQuery").value;
+            const requestData = {
+                "sql": sqlQuery
+            };
+
+            // Send a POST request to the Flask API
+            fetch('/getPatientIds', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the result textarea with the query result
+                const resultTextarea = document.getElementById("result");
+                // resultTextarea.value = JSON.stringify(data.data, null, 2);
+                resultTextarea.value = data.data
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function copyToClipboard() {
+            const resultTextarea = document.getElementById("result");
+            resultTextarea.select();
+            document.execCommand("copy");
+            alert("Result copied to clipboard!");
+        }
+
+
+        function sendNotification() {
+            const patients = document.getElementById("patients").value;
+            const message = document.getElementById("message").value;
+            const title = document.getElementById("title").value;
+
+            // Create a JSON object with the input values
+            const requestData = {
+                "patientIds": patients,
+                "message": message,
+                "title": title
+            };
+
+            // Send a POST request to the Flask API
+            fetch('/sendNotifications', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the result textarea with the query result
+                if(data.statusCode === 200){
+                    alert("Notification is sent");
+                }else{
+                    alert("Failed to send notifications");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
+
