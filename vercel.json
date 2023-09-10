@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "hackathon-backend/main.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "hackathon-backend/main.py"
+        }
+    ]
+}
